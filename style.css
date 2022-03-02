@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.container {
+    max-width: 100%;
+    width: 90%;
+    background-color: rgb(207, 172, 107);
+    padding: 25px 30px;
+    border-radius: 10px;
+
+}
+header {
+    font-size: 2.5rem;
+    font-weight: 600;
+    padding-bottom: 1.5rem;
+    color: rgb(126, 10, 235);
+}
+.input-field {
+    margin-bottom: 1rem;
+}
+.input-field form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+form input {
+    width: 90%;
+    height: 35px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+.add {
+    border: none;
+    outline: none;
+    padding: 7px;
+    font-size: 15px;
+    margin-left: .5rem;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tasks-container .task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.tasks-container .task .text {
+    font-size: 1.1rem;
+}
+.tools button {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    color: white;
+    background: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+@media screen and (min-width: 768px){
+    .input-field input {
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .add {
+        padding: 1rem;
+        font-size: 1.5rem;
+        
+    }
+    .tasks-container .task .text {
+        font-size: 2.6rem;
+    }
+    .tools button {
+        padding: 1rem;
+        margin-left: 5px;
+        font-size: 1.6rem;
+        border-radius: 7px;
+    }
+}
+@media screen and (min-width: 1024px){
+    .container {
+        width: 60%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
