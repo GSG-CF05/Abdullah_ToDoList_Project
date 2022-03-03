@@ -1,11 +1,22 @@
-let inputField = document.querySelector('.input-field input'),
+const inputField = document.querySelector('.input-field input'),
 addBtn = document.querySelector('.add'),
-editBtn = document.querySelector('.edit'),
-deeteBtn = document.querySelector('.delete'),
 tasksContainer = document.querySelector('.tasks-container');
+let i = 0;
+//index of elements
+let index;
 
+// the todos array
 let todos;
 
+// the edit element 
+let editEl;
+
+// the mode element
+let mode = "add";
+addBtn.setAttribute("class", "add uil uil-plus");
+
+//the old value of the edited text
+let old;
 if (localStorage.getItem('todo')) {
     todos = JSON.parse(localStorage.getItem('todo'));
 } else {
@@ -15,22 +26,40 @@ if (localStorage.getItem('todo')) {
 addBtn.addEventListener('click', (e) => {
     e.preventDefault();
     let task = inputField.value;
-    todos.push(task);
-    createTodoItem(task);
-    addToLocalStorage();
+    if (mode === "add") {
+        todos.push(task);
+        createTodoItem(task);
+    }
+    if (mode === "edit") {
+        editEl.innerText = task;
+        let items = JSON.parse(localStorage.getItem('todo'));
+        console.log(todos)
+        todos[index] = task;
+        console.log(todos)
+        addToLocalStorage();
+
+    }
+
+    mode = 'add';
+    addBtn.setAttribute("class", "add uil uil-plus");
+    inputField.value = '';
 });
 function createTodoItem(task) {
-    let item = document.createElement('div');
-    item.classList.add('task');
-    item.innerHTML = `
-        <div class="text">${task}</div>
-        <div class="tools">
-            <button class="delete"><i class="uil uil-edit"></i></button>
-            <button class="edit"><i class="uil uil-trash-alt"></i></button>
-        </div>
-    `;
-    tasksContainer.appendChild(item);
-    inputField.value = '';
+    if (task !== '') {
+        let item = document.createElement('div');
+        item.classList.add('task');
+        item.innerHTML = `
+            <div class="text">${task}</div>
+            <div class="tools">
+                <button class="delete"><i class="uil uil-trash-alt"></i></button>
+                <button class="edit" onclick = "editElement(this)"><i class="uil uil-edit"></i></button>
+            </div>
+        `;
+        item.setAttribute("id", i);
+        i++;
+        tasksContainer.appendChild(item);
+        addToLocalStorage();
+    }
 
 }
 function addToLocalStorage() {
@@ -47,3 +76,27 @@ function showAllItems() {
     }
 }
 showAllItems();
+
+const editBtns = document.querySelectorAll('.edit'),
+deleteBtns = document.querySelectorAll('.delete');
+editBtns.forEach(edit => {
+    edit.addEventListener('click', (e) => {
+        editElement(edit);
+
+    });
+});
+
+function editElement(edit) {
+    mode = "edit";
+    addBtn.setAttribute("class", "add uil uil-edit");
+    old = edit.parentElement.parentElement.querySelector('.text').innerText;
+    inputField.value = edit.parentElement.parentElement.querySelector('.text').innerText;
+    editEl = edit.parentElement.parentElement.querySelector('.text');
+    index = editEl.parentElement.getAttribute('id');
+}
+/*
+    delete.addEventListener('click', (e) => {
+        console.log("hr")
+        delete.parentElement.parentElement.remove();
+    });
+*/
