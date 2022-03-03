@@ -37,6 +37,7 @@ form input {
     border: none;
     outline: none;
     border-radius: 5px;
+    font-size: 2rem;
 }
 .add {
     border: none;
