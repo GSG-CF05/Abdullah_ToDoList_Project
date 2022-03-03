@@ -37,7 +37,6 @@ addBtn.addEventListener('click', (e) => {
         todos[index] = task;
         console.log(todos)
         addToLocalStorage();
-
     }
 
     mode = 'add';
@@ -51,7 +50,7 @@ function createTodoItem(task) {
         item.innerHTML = `
             <div class="text">${task}</div>
             <div class="tools">
-                <button class="delete"><i class="uil uil-trash-alt"></i></button>
+                <button class="delete" onclick="deleteItem(this)"><i class="uil uil-trash-alt"></i></button>
                 <button class="edit" onclick = "editElement(this)"><i class="uil uil-edit"></i></button>
             </div>
         `;
@@ -76,7 +75,6 @@ function showAllItems() {
     }
 }
 showAllItems();
-
 const editBtns = document.querySelectorAll('.edit'),
 deleteBtns = document.querySelectorAll('.delete');
 editBtns.forEach(edit => {
@@ -85,7 +83,6 @@ editBtns.forEach(edit => {
 
     });
 });
-
 function editElement(edit) {
     mode = "edit";
     addBtn.setAttribute("class", "add uil uil-edit");
@@ -94,9 +91,18 @@ function editElement(edit) {
     editEl = edit.parentElement.parentElement.querySelector('.text');
     index = editEl.parentElement.getAttribute('id');
 }
-/*
-    delete.addEventListener('click', (e) => {
-        console.log("hr")
-        delete.parentElement.parentElement.remove();
+deleteBtns.forEach(delte => {
+    delte.addEventListener('click', (e) => {
+        deleteItem(delte);
     });
-*/
+    
+});
+function deleteItem(delte) {
+    index = delte.parentElement.parentElement.getAttribute('id');
+        todos = todos.filter(todo => {
+            return todo != delte.parentElement.parentElement.querySelector('.text').innerText;
+        });
+        console.log(todos)
+        addToLocalStorage();
+        delte.parentElement.parentElement.remove();
+}
