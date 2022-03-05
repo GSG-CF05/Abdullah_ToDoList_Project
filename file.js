@@ -1,8 +1,7 @@
 const inputField = document.querySelector('.input-field input'),
 addBtn = document.querySelector('.add'),
 tasksContainer = document.querySelector('.tasks-container');
-let i = 0;
-//index of elements
+//index of the selected elements
 let index;
 
 // the todos array
@@ -26,17 +25,17 @@ if (localStorage.getItem('todo')) {
 addBtn.addEventListener('click', (e) => {
     e.preventDefault();
     let task = inputField.value;
-    if (mode === "add") {
-        todos.push(task);
-        createTodoItem(task);
-    }
-    if (mode === "edit") {
-        editEl.innerText = task;
-        let items = JSON.parse(localStorage.getItem('todo'));
-        console.log(todos)
-        todos[index] = task;
-        console.log(todos)
-        addToLocalStorage();
+    if (task) {
+        if (mode === "add") {
+            todos.push(task);
+            createTodoItem(task);
+        }
+        if (mode === "edit") {
+            editEl.innerText = task;
+            let items = JSON.parse(localStorage.getItem('todo'));
+            todos[index] = task;
+            addToLocalStorage();
+        }
     }
 
     mode = 'add';
@@ -54,10 +53,10 @@ function createTodoItem(task) {
                 <button class="edit" onclick = "editElement(this)"><i class="uil uil-edit"></i></button>
             </div>
         `;
-        item.setAttribute("id", i);
-        i++;
+        
         tasksContainer.appendChild(item);
         addToLocalStorage();
+        addId();
     }
 
 }
@@ -74,35 +73,30 @@ function showAllItems() {
         
     }
 }
-showAllItems();
-const editBtns = document.querySelectorAll('.edit'),
-deleteBtns = document.querySelectorAll('.delete');
-editBtns.forEach(edit => {
-    edit.addEventListener('click', (e) => {
-        editElement(edit);
-
-    });
-});
+showAllItems(); // to show all tasks 
 function editElement(edit) {
     mode = "edit";
     addBtn.setAttribute("class", "add uil uil-edit");
     old = edit.parentElement.parentElement.querySelector('.text').innerText;
-    inputField.value = edit.parentElement.parentElement.querySelector('.text').innerText;
+    inputField.value = old;
     editEl = edit.parentElement.parentElement.querySelector('.text');
     index = editEl.parentElement.getAttribute('id');
+    console.log(index)
 }
-deleteBtns.forEach(delte => {
-    delte.addEventListener('click', (e) => {
-        deleteItem(delte);
-    });
-    
-});
+
+
 function deleteItem(delte) {
-    index = delte.parentElement.parentElement.getAttribute('id');
+        index = delte.parentElement.parentElement.getAttribute('id');
         todos = todos.filter(todo => {
-            return todo != delte.parentElement.parentElement.querySelector('.text').innerText;
+            return todo != delte.parentElement.parentElement.querySelector('.text').innerHTML;
         });
         console.log(todos)
         addToLocalStorage();
         delte.parentElement.parentElement.remove();
+        addId();
+}
+function addId() {
+    document.querySelectorAll('.task').forEach((task, i) => {
+        task.setAttribute('id', i);
+    });
 }
